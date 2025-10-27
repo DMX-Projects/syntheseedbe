@@ -1,0 +1,98 @@
+# Python
+_pycache_/
+*.py[cod]
+*.env
+*.sqlite3
+*.log
+*.pot
+*.pyc
+venv/
+env/
+ENV/
+*.pyo
+
+# Django
+*.sqlite3
+db.sqlite3
+/staticfiles/
+/media/
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# PyCharm
+.idea/
+
+# Migrations
+*/migrations/.py
+!/migrations/_init_.py
+
+# Env files
+.env
+.env.*
+# Migrations
+**/migrations/
+!/migrations/_init_.py
+
+# Coverage / test output
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+
+# Byte-compiled / optimized / DLL files
+_pycache_/
+*.py[cod]
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+VENV/
+
+# Environment variables
+.env
+.env.*
+.env.development
+.env.testing
+.env.production
+
+# Django specific
+*.sqlite3
+db.sqlite3
+*.log
+
+# Migrations
+**/migrations/
+!/migrations/_init_.py
+
+# Media and Static files (optional, for development)
+media/
+static/
+
+# Editor specific
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+
+secretes.json
+secrets.json
+logs.log
+# Celery Beat schedule database
+celerybeat-schedule*
+# Redis dump file
+dump.rdb
+devhub_storage/
+logs/
