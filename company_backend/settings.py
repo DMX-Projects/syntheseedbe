@@ -1,9 +1,31 @@
 from pathlib import Path
+import json
+import sys
+from django.core.exceptions import ImproperlyConfigured
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-import sys
 
-SECRET_KEY = 'django-insecure-your-secret-key'
+
+SECRETS_FILE = BASE_DIR / 'secrets.json'
+try:
+    with open(SECRETS_FILE, 'r', encoding='utf-8') as f:
+        SECRETS = json.load(f)
+except FileNotFoundError:
+    SECRETS = {}
+
+def get_secret(key, default=None):
+    """Return secret value for `key`. If not found, return `default` (if provided)
+    otherwise raise ImproperlyConfigured.
+    """
+    if key in SECRETS:
+        return SECRETS[key]
+    if default is not None:
+        return default
+    raise ImproperlyConfigured(f"Missing required secret: {key}")
+
+# Secret key (prefer secrets.json)
+SECRET_KEY = get_secret('SECRET_KEY', 'django-insecure-your-secret-key')
 DEBUG = True
 ALLOWED_HOSTS = []
 
@@ -53,16 +75,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'company_backend.wsgi.application'
 
 # Database (PostgreSQL)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'company_db',
-        'USER': 'sravani2125',  # your postgres username
-        'PASSWORD': 'Sravs@2125',  # your postgres password
-        'HOST': 'localhost',
-        'PORT': '5433',  # check this (5433 for your case)
+# Prefer a `DATABASES` mapping inside secrets.json, otherwise fall back to
+# individual keys: DB_ENGINE, DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT.
+if 'DATABASES' in SECRETS and isinstance(SECRETS['DATABASES'], dict):
+    DATABASES = SECRETS['DATABASES']
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': get_secret('DB_ENGINE', 'django.db.backends.postgresql'),
+            'NAME': get_secret('DB_NAME'),
+            'USER': get_secret('DB_USER'),
+            'PASSWORD': get_secret('DB_PASSWORD'),
+            'HOST': get_secret('DB_HOST'),
+            'PORT': get_secret('DB_PORT'),
+            'OPTION': {
+                'sslmode': 'require',
+            }
+        }
     }
-}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
