@@ -27,7 +27,8 @@ def get_secret(key, default=None):
 # Secret key (prefer secrets.json)
 SECRET_KEY = get_secret('SECRET_KEY', 'django-insecure-your-secret-key')
 DEBUG = True
-ALLOWED_HOSTS = ['https://syntheseed.com', 'www.syntheseed.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['syntheseed.com', 'www.syntheseed.com', '127.0.0.1', 'localhost']
+
 
 # Installed apps
 INSTALLED_APPS = [
@@ -113,9 +114,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React
-    "http://localhost:5173",  # Vite
+    "http://localhost:3000",  # React local
+    "http://localhost:5173",  # Vite local
+    "https://syntheseed.com",  # Production
+    "https://www.syntheseed.com"  # Production (www)
 ]
+
 # CORS_ALLOW_ALL_ORIGINS = True  # uncomment for testing only
 
 REST_FRAMEWORK = {
