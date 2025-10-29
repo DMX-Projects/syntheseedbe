@@ -109,7 +109,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/syntheseedbe/company_backend/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/syntheseedbe/company_backend/media/'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
