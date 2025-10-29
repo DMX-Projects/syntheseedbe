@@ -27,7 +27,7 @@ def get_secret(key, default=None):
 # Secret key (prefer secrets.json)
 SECRET_KEY = get_secret('SECRET_KEY', 'django-insecure-your-secret-key')
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://syntheseed.com', 'www.syntheseed.com', '127.0.0.1', 'localhost']
 
 # Installed apps
 INSTALLED_APPS = [
