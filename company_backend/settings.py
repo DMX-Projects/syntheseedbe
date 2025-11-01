@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'contact',
+    'blogs',
+    'Careers',
+
 ]
 
 # Middleware
@@ -84,11 +87,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': get_secret('DB_ENGINE', 'django.db.backends.postgresql'),
-            'NAME': get_secret('DB_NAME'),
-            'USER': get_secret('DB_USER'),
-            'PASSWORD': get_secret('DB_PASSWORD'),
-            'HOST': get_secret('DB_HOST'),
-            'PORT': get_secret('DB_PORT'),
+            'NAME': get_secret('syntheseed_db'),
+            'USER': get_secret('kalfan'),
+            'PASSWORD': get_secret('1qaz@MLP0'),
+            'HOST': get_secret('localhost'),
+            'PORT': get_secret('5432'),
             'OPTION': {
                 'sslmode': 'require',
             }
@@ -177,3 +180,11 @@ LOGGING = {
         },
     },
 }
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Add this if you’re accessing the API from your React dev server
+CORS_ALLOW_ALL_ORIGINS = True
+
+
