@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import sys
+import os
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'contact',
+    'blogs',
+    'Careers',
 ]
 
 # Middleware
@@ -84,11 +87,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': get_secret('DB_ENGINE', 'django.db.backends.postgresql'),
-            'NAME': get_secret('DB_NAME'),
-            'USER': get_secret('DB_USER'),
-            'PASSWORD': get_secret('DB_PASSWORD'),
-            'HOST': get_secret('DB_HOST'),
-            'PORT': get_secret('DB_PORT'),
+            'NAME': get_secret('syntheseed_db'),
+            'USER': get_secret('hemalatha1'),
+            'PASSWORD': get_secret('Hema@1'),
+            'HOST': get_secret('localhost'),
+            'PORT': get_secret('5432'),
             'OPTION': {
                 'sslmode': 'require',
             }
@@ -177,3 +180,5 @@ LOGGING = {
         },
     },
 }
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
