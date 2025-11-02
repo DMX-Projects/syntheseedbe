@@ -35,22 +35,22 @@ class CareerAdmin(admin.ModelAdmin):
 from .models import JobApplication
 
 
-class JobApplicationInline(admin.TabularInline):
-    model = JobApplication
-    fields = ('full_name', 'email', 'phone', 'applied_on')
-    readonly_fields = ('full_name', 'email', 'phone', 'applied_on')
-    extra = 0
-    show_change_link = True
+# class JobApplicationInline(admin.TabularInline):
+#     model = JobApplication
+#     fields = ('full_name', 'email', 'phone', 'applied_on')
+#     readonly_fields = ('full_name', 'email', 'phone', 'applied_on')
+#     extra = 0
+#     show_change_link = True
 
 
-@admin.register(JobApplication)
-class JobApplicationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'career', 'full_name', 'email', 'applied_on')
-    list_filter = ('applied_on', 'career')
-    search_fields = ('full_name', 'email', 'career__title')
-    readonly_fields = ('applied_on',)
-    ordering = ('-applied_on',)
-    list_select_related = ('career',)
+# @admin.register(JobApplication)
+# class JobApplicationAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'career', 'full_name', 'email', 'applied_on')
+#     list_filter = ('applied_on', 'career')
+#     search_fields = ('full_name', 'email', 'career__title')
+#     readonly_fields = ('applied_on',)
+#     ordering = ('-applied_on',)
+#     list_select_related = ('career',)
 
-# attach inline below CareerAdmin definition to avoid forward ref issues
-CareerAdmin.inlines = [JobApplicationInline]
+# # attach inline below CareerAdmin definition to avoid forward ref issues
+# CareerAdmin.inlines = [JobApplicationInline]
