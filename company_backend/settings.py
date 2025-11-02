@@ -87,11 +87,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': get_secret('DB_ENGINE', 'django.db.backends.postgresql'),
-            'NAME': get_secret('syntheseed_db'),
-            'USER': get_secret('kalfan'),
-            'PASSWORD': get_secret('1qaz@MLP0'),
-            'HOST': get_secret('localhost'),
-            'PORT': get_secret('5432'),
+            'NAME': get_secret('DB_NAME'),
+            'USER': get_secret('DB_USER'),
+            'PASSWORD': get_secret('DB_PASSWORD'),
+            'HOST': get_secret('DB_HOST'),
+            'PORT': get_secret('DB_PORT'),
             'OPTION': {
                 'sslmode': 'require',
             }
@@ -165,7 +165,7 @@ LOGGING = {
         },
         'django.request': {
             'handlers': ['console'],
-            'level': 'DEBUG',  # 👈 shows request-related debug info
+            'level': 'DEBUG', 
             'propagate': False,
         },
         'django.security': {
@@ -175,16 +175,8 @@ LOGGING = {
         },
         'rest_framework': {
             'handlers': ['console'],
-            'level': 'DEBUG',  # 👈 shows auth + permission details
+            'level': 'DEBUG',
             'propagate': False,
         },
     },
 }
-import os
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Add this if you’re accessing the API from your React dev server
-CORS_ALLOW_ALL_ORIGINS = True
-
-
