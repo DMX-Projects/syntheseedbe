@@ -1,5 +1,5 @@
 from django.db import models
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Career(models.Model):
     title = models.CharField(max_length=200)
@@ -7,14 +7,17 @@ class Career(models.Model):
     location = models.CharField(max_length=100, db_index=True)
     work_mode = models.CharField(max_length=50)
     job_type = models.CharField(max_length=50, db_index=True)
-    description = models.TextField()
+
+    # Updated for CKEditor rich text support
+    description = RichTextUploadingField()
     tags = models.TextField(blank=True)
-    details = models.TextField(blank=True)
+    details = RichTextUploadingField(blank=True)
+
     posted_on = models.DateField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return self.title
-    
+
     class Meta:
         ordering = ['-posted_on']
         indexes = [
@@ -22,6 +25,8 @@ class Career(models.Model):
             models.Index(fields=['job_type'], name='career_jobtype_idx'),
             models.Index(fields=['posted_on'], name='career_posted_on_idx'),
         ]
+
+
 class JobApplication(models.Model):
     career = models.ForeignKey(
         Career,
