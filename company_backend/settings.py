@@ -91,11 +91,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': get_secret('DB_ENGINE', 'django.db.backends.postgresql'),
-            'NAME': get_secret('syntheseed_db'),
-            'USER': get_secret('kalfan'),
-            'PASSWORD': get_secret('1qaz@MLP0'),
-            'HOST': get_secret('localhost'),
-            'PORT': get_secret('5432'),
+            'NAME': get_secret('DB_NAME'),
+            'USER': get_secret('DB_USER'),
+            'PASSWORD': get_secret('DB_PASSWORD'),
+            'HOST': get_secret('DB_HOST'),
+            'PORT': get_secret('DB_PORT'),
             'OPTION': {
                 'sslmode': 'require',
             }
@@ -119,7 +119,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/syntheseedbe/company_backend/static/'
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT ='/var/www/syntheseedbe/company_backend/media/'
 BASE_BACKEND_URL = "http://127.0.0.1:8000"
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
