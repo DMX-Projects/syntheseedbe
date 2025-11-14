@@ -1,37 +1,44 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Career(models.Model):
-    WORK_MODE_CHOICES = [
-        ('Remote', 'Remote'),
-        ('Hybrid', 'Hybrid'),
-        ('On-site', 'On-site'),
-    ]
-
-    JOB_TYPE_CHOICES = [
-        ('Full-time', 'Full-time'),
-        ('Part-time', 'Part-time'),
-        ('Internship', 'Internship'),
-        ('Contract', 'Contract'),
-    ]
-
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
-    department = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    work_mode = models.CharField(max_length=50, choices=WORK_MODE_CHOICES, default='Remote')
-    job_type = models.CharField(max_length=50, choices=JOB_TYPE_CHOICES, default='Full-time')
-    description = models.TextField()
-    tags = models.CharField(max_length=200, blank=True, help_text="Comma-separated tags like AI, Python, Research")
-    details = models.TextField(help_text="Detailed job description for the View Role page")
-    posted_on = models.DateField(auto_now_add=True)
+    department = models.CharField(max_length=100, db_index=True)
+    location = models.CharField(max_length=100, db_index=True)
+    work_mode = models.CharField(max_length=50)
+    job_type = models.CharField(max_length=50, db_index=True)
+
+    # Updated for CKEditor rich text support
+    description = RichTextUploadingField()
+    tags = models.TextField(blank=True)
+    details = RichTextUploadingField(blank=True)
+
+    posted_on = models.DateField(auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ['-posted_on']
-        verbose_name = "Career"
-        verbose_name_plural = "Careers"
+        indexes = [
+            models.Index(fields=['department', 'location'], name='career_dept_loc_idx'),
+            models.Index(fields=['job_type'], name='career_jobtype_idx'),
+            models.Index(fields=['posted_on'], name='career_posted_on_idx'),
+        ]
 
-    def _str_(self):
-        return self.title
+
+class JobApplication(models.Model):
+    career = models.ForeignKey(
+        Career,
+        on_delete=models.CASCADE,
+        related_name='applications'
+    )
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField(db_index=True)
+    phone = models.CharField(max_length=15)
+    resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+    cover_letter = models.TextField(blank=True)
+    applied_on = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.career.title}"

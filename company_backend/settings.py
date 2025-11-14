@@ -2,6 +2,8 @@ from pathlib import Path
 import json
 import sys
 from django.core.exceptions import ImproperlyConfigured
+import os
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +45,8 @@ INSTALLED_APPS = [
     'contact',
     'blogs',
     'Careers',
+    'ckeditor',
+    'ckeditor_uploader',
 
 ]
 
@@ -114,8 +118,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/syntheseedbe/company_backend/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/www/syntheseedbe/company_backend/media/'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+BASE_BACKEND_URL = "http://127.0.0.1:8000"
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraPlugins': ','.join(['uploadimage', 'image2']),
+        'removePlugins': 'image',
+        'forcePasteAsPlainText': False,
+    }
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -180,9 +196,8 @@ LOGGING = {
         },
     },
 }
-import os
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 
 # Add this if you’re accessing the API from your React dev server
 CORS_ALLOW_ALL_ORIGINS = True
