@@ -67,7 +67,7 @@ ROOT_URLCONF = 'company_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -201,5 +201,24 @@ LOGGING = {
 
 # Add this if you’re accessing the API from your React dev server
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Email / Microsoft Graph configuration (prefer secrets.json values)
+# We prefer using Microsoft Graph (client credentials) for sending mail.
+# SMTP-related settings were removed to avoid accidental basic-auth attempts.
+
+# Default from address and notification recipients
+DEFAULT_FROM_EMAIL = get_secret('DEFAULT_FROM_EMAIL', get_secret('AZURE_SENDER_UPN', None))
+NOTIFY_CONTACT_RECIPIENTS = get_secret('NOTIFY_CONTACT_RECIPIENTS', None)
+
+# Azure AD / Microsoft Graph client credentials (for app-only mail sending)
+AZURE_CLIENT_ID = get_secret('AZURE_CLIENT_ID', None)
+AZURE_CLIENT_SECRET = get_secret('AZURE_CLIENT_SECRET', None)
+AZURE_TENANT_ID = get_secret('AZURE_TENANT_ID', None)
+AZURE_SENDER_UPN = get_secret('AZURE_SENDER_UPN', None)
+
+# Optionally send a copy of notifications to the sender mailbox (useful for testing)
+# Set this to true in secrets.json to include the sender in recipients.
+SEND_COPY_TO_SENDER = get_secret('SEND_COPY_TO_SENDER', False)
+
 
 
